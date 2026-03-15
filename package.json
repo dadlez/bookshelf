@@ -6,7 +6,12 @@
     "backend"
   ],
   "scripts": {
+    "build": "npm run build --workspace=@bookshelf/backend",
     "start": "npm start --workspace=@bookshelf/backend",
     "dev": "npm run dev --workspace=@bookshelf/backend"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0"
   }
 }
