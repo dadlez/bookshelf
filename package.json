@@ -10,7 +10,8 @@
     "start": "npm start --workspace=@bookshelf/backend",
     "dev": "npm run dev --workspace=@bookshelf/backend",
     "db": "docker compose up --build -d",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "db:migrate": "node --env-file=backend/.env database/migrate.js"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
