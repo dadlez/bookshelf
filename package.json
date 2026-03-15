@@ -1,0 +1,12 @@
+{
+  "name": "bookshelf",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "start": "npm start --workspace=@bookshelf/backend",
+    "dev": "npm run dev --workspace=@bookshelf/backend"
+  }
+}
