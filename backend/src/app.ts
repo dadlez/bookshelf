@@ -1,8 +1,10 @@
 import Fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
+import type { Database } from './db.js'
+import { healthPlugin } from './health/plugin.js'
 
-export async function buildApp() {
+export async function buildApp(db: Database) {
   const app = Fastify({ logger: true })
 
   await app.register(swagger, {
@@ -19,20 +21,7 @@ export async function buildApp() {
     routePrefix: '/docs',
   })
 
-  app.get('/health', {
-    schema: {
-      summary: 'Health check',
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            status: { type: 'string' },
-          },
-        },
-      },
-    },
-    handler: async () => ({ status: 'ok' }),
-  })
+  await app.register(healthPlugin, { db })
 
   return app
 }
