@@ -1,5 +1,5 @@
-import { buildApp } from './app.js'
-import { Database } from './db.js'
+import { buildApp } from './app'
+import { Database } from './db'
 
 const HOST = process.env.HOST ?? '0.0.0.0'
 const PORT = Number(process.env.PORT ?? 3000)
@@ -12,6 +12,9 @@ const db = new Database({
   password: process.env.PGPASSWORD ?? '',
 })
 
-const app = await buildApp(db)
+async function main() {
+  const app = await buildApp(db)
+  await app.listen({ host: HOST, port: PORT })
+}
 
-await app.listen({ host: HOST, port: PORT })
+main()

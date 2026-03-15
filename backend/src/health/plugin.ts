@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify'
-import type { Database } from '../db.js'
-import { healthHandler } from './handler.js'
+import type { Database } from '../db'
+import { healthHandler } from './handler'
 
 interface HealthPluginOptions {
   db: Database

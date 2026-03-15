@@ -1,8 +1,9 @@
 import Fastify from 'fastify'
 import swagger from '@fastify/swagger'
 import swaggerUi from '@fastify/swagger-ui'
-import type { Database } from './db.js'
-import { healthPlugin } from './health/plugin.js'
+import type { Database } from './db'
+import { healthPlugin } from './health/plugin'
+import { booksPlugin } from './books/plugin'
 
 export async function buildApp(db: Database) {
   const app = Fastify({ logger: true })
@@ -22,6 +23,7 @@ export async function buildApp(db: Database) {
   })
 
   await app.register(healthPlugin, { db })
+  await app.register(booksPlugin, { db })
 
   return app
 }

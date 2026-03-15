@@ -11,7 +11,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "@fastify/swagger": "^9.7.0",
     "@fastify/swagger-ui": "^5.2.5",

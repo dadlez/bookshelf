@@ -1,5 +1,5 @@
 import type { RouteHandler } from 'fastify'
-import type { Database } from '../db.js'
+import type { Database } from '../db'
 
 export const healthHandler = (db: Database): RouteHandler  => {
   return async () => {
