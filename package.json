@@ -8,7 +8,9 @@
   "scripts": {
     "build": "npm run build --workspace=@bookshelf/backend",
     "start": "npm start --workspace=@bookshelf/backend",
-    "dev": "npm run dev --workspace=@bookshelf/backend"
+    "dev": "npm run dev --workspace=@bookshelf/backend",
+    "db": "docker compose up --build -d",
+    "db:down": "docker compose down"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
