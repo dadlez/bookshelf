@@ -1,0 +1,7 @@
+FROM postgres:17
+
+ENV POSTGRES_DB=bookshelf
+ENV POSTGRES_USER=bookshelf
+ENV POSTGRES_PASSWORD=bookshelf
+
+EXPOSE 5432

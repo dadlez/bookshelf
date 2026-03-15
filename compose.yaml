@@ -1,0 +1,11 @@
+services:
+  db:
+    build: .
+    ports:
+      - "5433:5432"
+    env_file: backend/.env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
