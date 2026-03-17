@@ -1,7 +1,10 @@
 # Bookshelf app
 ## How to
 ### Starting the app locally
-From project root:
+#### Prerequisites 
+docker and nodejs >v22.
+
+#### From the project root:
 
 Start the docker database container
 ```npm
@@ -52,10 +55,27 @@ Check frontend logs and open the provided link in the browser.
 * code structure - towards vertical slices/feature sliced design, but simplified for this size of the project
 * performance as the critical decision driver
   * api-first design
-  * database query performance in the first place
+  * database query performance in the first place, no ORM
   * caching on the frontend
 * UI is secondary - having the performance in place, step-by-step improvements can be done
   * default UI components library with its default styles
+
+## Major implementation decisions
+* database: 
+  * PostgreSQL - I know it best.
+  * faker-js for data seeding - I used it before, very easy to use api for randomized, yet realistic mock data generation.
+* npm workspaces for monorepo - a simple tool for a simple project, I worked with it before.
+* frontend: vite, react, material UI - well established, I have fresh experience on the entire stack. 
+  * tanstack query - industry standard, stale-while-revalidate support out of the box + caching.
+  * zod for shared schemas, validators and TS types - I know it, very fast development
+  * react-hook-forms - I personally don't like it, but I have fresh experience, and it nicely cooperates with zod.
+  * material UI - I personally don't like it, but I have fresh experience. Good composition principles, perfect for fast UI implementations.
+  * for this app state stored in url search params:
+    * nuqs - lightweight, no routing required, only query params support. Strongly typed. Supports zod schemas parameters for parsing.
+* backend: 
+  * fastify - plug'n'play setup, simplistic dev-ex, nicely cooperates with zod. 
+  * swagger - single plugin setup, automatic docs generation, immediate api manual test tool. Niceliy cooperates with zod. 
+  * pg for database client - most popular, I know it.
 
 ## TODOs
 * TESTS!!! shame on me here. 
