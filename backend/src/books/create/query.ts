@@ -1,7 +1,8 @@
 import type { Database } from '../../db'
-import { toStoredRating, toBookResponse, type CreateBookBody, type BookResponse, type BookRow } from '../schemas'
+import type { AddBookBody, Book } from '@bookshelf/shared'
+import { toStoredRating, toBookResponse, type BookRow } from '../schemas'
 
-export async function createBook(db: Database, body: CreateBookBody): Promise<BookResponse> {
+export async function createBook(db: Database, body: AddBookBody): Promise<Book> {
   const { title, author, isbn, pageCount, rating } = body
   const result = await db.query<BookRow>(
     `INSERT INTO books (title, author, isbn, page_count, rating)

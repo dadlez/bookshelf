@@ -1,3 +1,5 @@
+import type { Book } from '@bookshelf/shared'
+
 // Rating conversion: DB stores 0.0–1.0, API uses 1–5
 export function toStoredRating(userRating: number): number {
   return (userRating - 1) / 4
@@ -17,19 +19,9 @@ export interface BookRow {
   created_at: string
 }
 
-export interface BookResponse {
-  bookId: string
-  title: string
-  author: string
-  isbn: string
-  pageCount: number
-  rating: number
-  createdAt: string
-}
-
-export function toBookResponse(row: BookRow): BookResponse {
+export function toBookResponse(row: BookRow): Book {
   return {
-    bookId: row.book_id,
+    bookId: Number(row.book_id),
     title: row.title,
     author: row.author,
     isbn: row.isbn,
@@ -85,24 +77,3 @@ export const listBooksQuerySchema = {
   },
   additionalProperties: false,
 } as const
-
-export interface CreateBookBody {
-  title: string
-  author: string
-  isbn: string
-  pageCount: number
-  rating: number
-}
-
-export interface ListBooksQuery {
-  q?: string
-  author?: string
-  minRating?: number
-  maxRating?: number
-  minPages?: number
-  maxPages?: number
-  sortBy?: 'title' | 'author' | 'rating' | 'page_count' | 'created_at'
-  sortOrder?: 'asc' | 'desc'
-  cursor?: string
-  limit?: number
-}

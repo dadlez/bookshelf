@@ -1,5 +1,6 @@
 import type { Database } from '../../db'
-import { toBookResponse, type BookRow, type BookResponse, type ListBooksQuery } from '../schemas'
+import { getBooksParamsSchema, type GetBooksParams, type Book } from '@bookshelf/shared'
+import { toBookResponse, type BookRow } from '../schemas'
 import { encodeCursor, type SortDirection } from './cursorPagination'
 import { buildWhereClause, type WhereCondition } from '../../utils/whereClause'
 import {
@@ -14,22 +15,21 @@ import {
 
 export async function getBooks(
   db: Database,
-  queryParams: ListBooksQuery,
-): Promise<{ data: BookResponse[]; nextCursor: string | null }> {
-  // TODO: replace these casts with a Zod validator on ListBooksQuery so sortBy and
-  // sortOrder are narrowed to their exact union types before reaching here.
-  const sortColumn = (queryParams.sortBy ?? 'created_at') as keyof BookRow
-  const sortDirection = (queryParams.sortOrder ?? 'desc') as SortDirection
-  const limit = queryParams.limit ?? 20
+  queryParams: GetBooksParams,
+): Promise<{ data: Book[]; nextCursor: string | null }> {
+  const parsed = getBooksParamsSchema.parse(queryParams)
+  const sortColumn = (parsed.sortBy ?? 'created_at') as keyof BookRow
+  const sortDirection: SortDirection = parsed.sortOrder ?? 'desc'
+  const limit = parsed.limit ?? 20
 
   const whereConditions = [
-    searchCondition(queryParams.q),
-    authorCondition(queryParams.author),
-    minRatingCondition(queryParams.minRating),
-    maxRatingCondition(queryParams.maxRating),
-    minPagesCondition(queryParams.minPages),
-    maxPagesCondition(queryParams.maxPages),
-    cursorCondition(queryParams.cursor, sortColumn, sortDirection),
+    searchCondition(parsed.q),
+    authorCondition(parsed.author),
+    minRatingCondition(parsed.minRating),
+    maxRatingCondition(parsed.maxRating),
+    minPagesCondition(parsed.minPages),
+    maxPagesCondition(parsed.maxPages),
+    cursorCondition(parsed.cursor, sortColumn, sortDirection),
   ].filter((c): c is WhereCondition => c !== null)
 
   const { sql: whereClause, params } = buildWhereClause(whereConditions)

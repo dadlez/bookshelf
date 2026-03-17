@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "backend"
+    "shared",
+    "backend",
+    "frontend"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@bookshelf/backend",
-    "start": "npm start --workspace=@bookshelf/backend",
-    "dev": "npm run dev --workspace=@bookshelf/backend",
+    "dev:backend": "npm run dev --workspace=@bookshelf/backend",
+    "dev:frontend": "npm run dev --workspace=@bookshelf/frontend",
     "db": "docker compose up --build -d",
     "db:down": "docker compose down",
     "db:migrate": "node --env-file=backend/.env database/migrate.js"
