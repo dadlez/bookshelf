@@ -11,12 +11,14 @@
     "build:shared": "npm run build --workspace=@bookshelf/shared",
     "dev:backend": "npm run build:shared && npm run dev --workspace=@bookshelf/backend",
     "dev:frontend": "npm run build:shared && npm run dev --workspace=@bookshelf/frontend",
+    "build:all": "npm run build:shared && npm run build --workspace=@bookshelf/backend && npm run build --workspace=@bookshelf/frontend",
+    "start:backend": "npm start --workspace=@bookshelf/backend",
+    "start:frontend": "npm start --workspace=@bookshelf/frontend",
     "db": "docker compose up --build -d",
     "db:down": "docker compose down",
     "db:migrate": "node --env-file=backend/.env database/migrate.js",
     "db:seed100k": "node --env-file=backend/.env database/seed100k.js",
     "db:seed1M": "node --env-file=backend/.env database/seed1M.js"
-
   },
   "devDependencies": {
     "@faker-js/faker": "^10.3.0",
