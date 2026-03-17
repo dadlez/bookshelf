@@ -1,10 +1,12 @@
 import PageWrapper from "../components/layout/PageWrapper";
 import BooksTableView from "../views/BooksTableView";
 import { useGetBooks } from "../lib/getBooks/query";
+import { useFilterParams } from "../lib/getBooks/filter/useFilterParams";
 import type { Book } from "@bookshelf/shared";
 
 export default function BooksPage() {
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetBooks();
+  const { filterParams } = useFilterParams();
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetBooks(filterParams);
 
   const rows: Book[] = data?.pages.flatMap((page) => page.data) ?? [];
   const emptyMessage = error?.message ?? "No books found";
@@ -17,6 +19,7 @@ export default function BooksPage() {
         hasNextPage={!!hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
         onLoadMore={fetchNextPage}
+
       />
     </PageWrapper>
   );

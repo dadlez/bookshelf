@@ -2,11 +2,7 @@ import { TableRow, TableCell, Button, Typography } from "@mui/material";
 import type { Book } from "@bookshelf/shared";
 import Table, { Column } from "../components/table/Table";
 import { BOOKS_COLUMNS } from "./booksColumns";
-
-const COLUMNS: Column<Book>[] = BOOKS_COLUMNS.map((col) => ({
-  ...col,
-  render: (row: Book) => row[col.key as keyof Book] ?? "—",
-}));
+import AuthorFilterButton from "../components/form/AuthorFilterButton";
 
 interface BooksTableViewProps {
   rows: Book[];
@@ -16,7 +12,27 @@ interface BooksTableViewProps {
   onLoadMore: () => void;
 }
 
-export default function BooksTableView({ rows, emptyMessage, hasNextPage, isFetchingNextPage, onLoadMore }: BooksTableViewProps) {
+export default function BooksTableView({
+  rows,
+  emptyMessage,
+  hasNextPage,
+  isFetchingNextPage,
+  onLoadMore,
+}: BooksTableViewProps) {
+  const COLUMNS: Column<Book>[] = BOOKS_COLUMNS.map((col) => ({
+    ...col,
+    header:
+      col.key === "author" ? (
+        <>
+          {col.header}
+          <AuthorFilterButton />
+        </>
+      ) : (
+        col.header
+      ),
+    render: (row: Book) => row[col.key as keyof Book] ?? "—",
+  }));
+
   return (
     <Table<Book> columns={COLUMNS} rows={rows} emptyMessage={emptyMessage ?? "No books found"}>
       <TableRow>

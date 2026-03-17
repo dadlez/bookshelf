@@ -12,7 +12,7 @@ export const searchCondition = (searchQuery: string | undefined): WhereCondition
 
 export const authorCondition = (author: string | undefined): WhereCondition | null => {
   if (!author) return null
-  return { condition: `author = ?`, values: [author] }
+  return { condition: `author ILIKE ?`, values: [`%${author}%`] }
 }
 
 export const minRatingCondition = (minRating: number | undefined): WhereCondition | null => {

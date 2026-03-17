@@ -12,7 +12,7 @@ import {PropsWithChildren, ReactNode} from "react";
 
 export interface Column<T> {
   key: string;
-  header: string;
+  header: ReactNode;
   render: (row: T) => ReactNode;
   /** Proportional width, e.g. 2 means twice as wide as a column with width 1 */
   width?: number;
