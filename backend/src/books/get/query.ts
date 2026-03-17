@@ -5,7 +5,9 @@ import { encodeCursor, type SortDirection } from './cursorPagination'
 import { buildWhereClause, type WhereCondition } from '../../utils/whereClause'
 import {
   searchCondition,
+  titleCondition,
   authorCondition,
+  isbnCondition,
   minRatingCondition,
   maxRatingCondition,
   minPagesCondition,
@@ -24,7 +26,9 @@ export async function getBooks(
 
   const whereConditions = [
     searchCondition(parsed.q),
+    titleCondition(parsed.title),
     authorCondition(parsed.author),
+    isbnCondition(parsed.isbn),
     minRatingCondition(parsed.minRating),
     maxRatingCondition(parsed.maxRating),
     minPagesCondition(parsed.minPages),

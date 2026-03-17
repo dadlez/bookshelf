@@ -1,19 +1,35 @@
-import TextField from "@mui/material/TextField";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { Clear as ClearIcon } from "@mui/icons-material";
 
 interface FilterInputProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
+  placeholder: string;
+  value: string | null;
+  onChange: (value: string | null) => void;
+  close: () => void;
+  width?: number;
 }
 
-export default function FilterInput({ label, value, onChange }: FilterInputProps) {
+export default function FilterInput({ placeholder, value, onChange, close, width = 220 }: FilterInputProps) {
   return (
     <TextField
-      label={label}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
+      autoFocus
       size="small"
-      sx={{ minWidth: 200 }}
+      placeholder={placeholder}
+      value={value ?? ""}
+      onChange={(e) => onChange(e.target.value)}
+      onKeyDown={(e) => { if (e.key === "Enter") close(); }}
+      sx={{ width }}
+      slotProps={{
+        input: {
+          endAdornment: value ? (
+            <InputAdornment position="end">
+              <IconButton size="small" edge="end" onClick={() => onChange(null)}>
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            </InputAdornment>
+          ) : undefined,
+        },
+      }}
     />
   );
 }

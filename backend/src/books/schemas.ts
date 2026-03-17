@@ -61,7 +61,9 @@ export const listBooksQuerySchema = {
   type: 'object',
   properties: {
     q: { type: 'string' },
+    title: { type: 'string' },
     author: { type: 'string' },
+    isbn: { type: 'string' },
     minRating: { type: 'number', minimum: 1, maximum: 5 },
     maxRating: { type: 'number', minimum: 1, maximum: 5 },
     minPages: { type: 'integer', minimum: 1 },

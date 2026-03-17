@@ -2,7 +2,17 @@ import { TableRow, TableCell, Button, Typography } from "@mui/material";
 import type { Book } from "@bookshelf/shared";
 import Table, { Column } from "../components/table/Table";
 import { BOOKS_COLUMNS } from "./booksColumns";
-import AuthorFilterButton from "../components/form/AuthorFilterButton";
+import TitleFilter from "./TitleFilter";
+import AuthorFilter from "./AuthorFilter";
+import RatingFilter from "./RatingFilter";
+import IsbnFilter from "./IsbnFilter";
+
+const COLUMN_FILTERS: Partial<Record<string, React.ReactNode>> = {
+  title: <TitleFilter />,
+  author: <AuthorFilter />,
+  rating: <RatingFilter />,
+  isbn: <IsbnFilter />,
+};
 
 interface BooksTableViewProps {
   rows: Book[];
@@ -19,19 +29,14 @@ export default function BooksTableView({
   isFetchingNextPage,
   onLoadMore,
 }: BooksTableViewProps) {
-  const COLUMNS: Column<Book>[] = BOOKS_COLUMNS.map((col) => ({
-    ...col,
-    header:
-      col.key === "author" ? (
-        <>
-          {col.header}
-          <AuthorFilterButton />
-        </>
-      ) : (
-        col.header
-      ),
-    render: (row: Book) => row[col.key as keyof Book] ?? "—",
-  }));
+  const COLUMNS: Column<Book>[] = BOOKS_COLUMNS.map((col) => {
+    const filter = COLUMN_FILTERS[col.key];
+    return {
+      ...col,
+      header: filter ? <>{col.header}{filter}</> : col.header,
+      render: (row: Book) => row[col.key as keyof Book] ?? "—",
+    };
+  });
 
   return (
     <Table<Book> columns={COLUMNS} rows={rows} emptyMessage={emptyMessage ?? "No books found"}>

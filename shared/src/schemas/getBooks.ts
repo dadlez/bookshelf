@@ -5,7 +5,9 @@ export const searchSchema = z.object({
 })
 
 export const filterSchema = z.object({
+  title: z.string().optional(),
   author: z.string().optional(),
+  isbn: z.string().optional(),
   minRating: z.number().min(1).max(5).optional(),
   maxRating: z.number().min(1).max(5).optional(),
   minPages: z.number().int().min(1).optional(),

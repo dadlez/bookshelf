@@ -10,9 +10,19 @@ export const searchCondition = (searchQuery: string | undefined): WhereCondition
   }
 }
 
+export const titleCondition = (title: string | undefined): WhereCondition | null => {
+  if (!title) return null
+  return { condition: `title ILIKE ?`, values: [`%${title}%`] }
+}
+
 export const authorCondition = (author: string | undefined): WhereCondition | null => {
   if (!author) return null
   return { condition: `author ILIKE ?`, values: [`%${author}%`] }
+}
+
+export const isbnCondition = (isbn: string | undefined): WhereCondition | null => {
+  if (!isbn) return null
+  return { condition: `isbn ILIKE ?`, values: [`%${isbn}%`] }
 }
 
 export const minRatingCondition = (minRating: number | undefined): WhereCondition | null => {
