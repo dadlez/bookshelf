@@ -6,7 +6,7 @@ export function toStoredRating(userRating: number): number {
 }
 
 export function toUserRating(storedRating: number): number {
-  return storedRating * 4 + 1
+  return Math.min(5, Math.max(1, Math.ceil(storedRating * 5)))
 }
 
 export interface BookRow {
