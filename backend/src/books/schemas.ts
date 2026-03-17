@@ -47,7 +47,7 @@ export const createBookBodySchema = {
 export const bookResponseSchema = {
   type: 'object',
   properties: {
-    bookId: { type: 'string' },
+    bookId: { type: 'integer' },
     title: { type: 'string' },
     author: { type: 'string' },
     isbn: { type: 'string' },
