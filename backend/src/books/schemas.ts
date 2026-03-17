@@ -1,4 +1,5 @@
-import type { Book } from '@bookshelf/shared'
+import { z } from 'zod'
+import { addBookSchema, type Book } from '@bookshelf/shared'
 
 // Rating conversion: DB stores 0.0–1.0, API uses 1–5
 export function toStoredRating(userRating: number): number {
@@ -31,18 +32,7 @@ export function toBookResponse(row: BookRow): Book {
   }
 }
 
-export const createBookBodySchema = {
-  type: 'object',
-  required: ['title', 'author', 'isbn', 'pageCount', 'rating'],
-  properties: {
-    title: { type: 'string', minLength: 1, maxLength: 500 },
-    author: { type: 'string', minLength: 1, maxLength: 255 },
-    isbn: { type: 'string', minLength: 1 },
-    pageCount: { type: 'integer', minimum: 1 },
-    rating: { type: 'number', minimum: 1, maximum: 5 },
-  },
-  additionalProperties: false,
-} as const
+export const createBookBodySchema = z.toJSONSchema(addBookSchema)
 
 export const bookResponseSchema = {
   type: 'object',
