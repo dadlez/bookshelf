@@ -15,7 +15,8 @@ export default function BooksPage() {
   const { filterParams } = useFilterParams();
   const { orderParams } = useOrderParams();
   const { searchParams } = useSearchParams();
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetBooks(filterParams, orderParams, searchParams);
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useGetBooks(filterParams, orderParams, searchParams);
+  const isRefetching = isFetching && !isFetchingNextPage;
 
   const rows: Book[] = data?.pages.flatMap((page) => page.data) ?? [];
   const emptyMessage = error?.message ?? "No books found";
@@ -25,7 +26,8 @@ export default function BooksPage() {
       <BooksTableView
         rows={rows}
         emptyMessage={emptyMessage}
-        hasNextPage={!!hasNextPage}
+        hasNextPage={hasNextPage}
+        isRefetching={isRefetching}
         isFetchingNextPage={isFetchingNextPage}
         onLoadMore={fetchNextPage}
       />

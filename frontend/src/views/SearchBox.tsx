@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
-import { TextField, Button, Stack } from "@mui/material";
+import { TextField, Button, Stack, CircularProgress } from "@mui/material";
 import { useSearchParams } from "../lib/getBooks/search/useSearchParams";
 
-export default function SearchBox() {
+interface SearchBoxProps {
+  isLoading?: boolean;
+}
+
+export default function SearchBox({ isLoading = false }: SearchBoxProps) {
   const { searchParams, setQ } = useSearchParams();
   const [draft, setDraft] = useState(searchParams.q ?? "");
 
@@ -24,8 +28,8 @@ export default function SearchBox() {
         size="small"
         fullWidth
       />
-      <Button type="submit" variant="contained" size="small">
-        Search
+      <Button type="submit" variant="contained" size="small" disabled={isLoading}>
+        {isLoading ? <CircularProgress size={16} color="inherit" /> : "Search"}
       </Button>
     </Stack>
   );

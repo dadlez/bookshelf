@@ -20,6 +20,7 @@ interface BooksTableViewProps {
   rows: Book[];
   emptyMessage?: string;
   hasNextPage: boolean;
+  isRefetching: boolean;
   isFetchingNextPage: boolean;
   onLoadMore: () => void;
 }
@@ -28,6 +29,7 @@ export default function BooksTableView({
   rows,
   emptyMessage,
   hasNextPage,
+  isRefetching,
   isFetchingNextPage,
   onLoadMore,
 }: BooksTableViewProps) {
@@ -41,7 +43,7 @@ export default function BooksTableView({
 
   return (
     <Stack spacing={2}>
-    <SearchBox />
+    <SearchBox isLoading={isRefetching} />
     <Table<Book>
       columns={COLUMNS}
       rows={rows}

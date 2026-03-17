@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { addBookSchema, type Book } from '@bookshelf/shared'
+import { addBookSchema, bookSchema, getBooksParamsSchema, type Book } from '@bookshelf/shared'
 
 // Rating conversion: DB stores 0.0–1.0, API uses 1–5
 export function toStoredRating(userRating: number): number {
@@ -32,40 +32,10 @@ export function toBookResponse(row: BookRow): Book {
   }
 }
 
-export const createBookBodySchema = z.toJSONSchema(addBookSchema)
+const jsonSchemaOptions = { target: 'draft-7' } as const
 
-export const bookResponseSchema = {
-  type: 'object',
-  properties: {
-    bookId: { type: 'integer' },
-    title: { type: 'string' },
-    author: { type: 'string' },
-    isbn: { type: 'string' },
-    pageCount: { type: 'integer' },
-    rating: { type: 'number' },
-    createdAt: { type: 'string' },
-  },
-} as const
+export const createBookBodySchema = z.toJSONSchema(addBookSchema, jsonSchemaOptions)
 
-export const listBooksQuerySchema = {
-  type: 'object',
-  properties: {
-    q: { type: 'string' },
-    title: { type: 'string' },
-    author: { type: 'string' },
-    isbn: { type: 'string' },
-    minRating: { type: 'number', minimum: 1, maximum: 5 },
-    maxRating: { type: 'number', minimum: 1, maximum: 5 },
-    minPages: { type: 'integer', minimum: 1 },
-    maxPages: { type: 'integer', minimum: 1 },
-    sortBy: {
-      type: 'string',
-      enum: ['title', 'author', 'rating', 'page_count', 'isbn', 'created_at'],
-      default: 'created_at',
-    },
-    sortOrder: { type: 'string', enum: ['asc', 'desc'], default: 'desc' },
-    cursor: { type: 'string' },
-    limit: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
-  },
-  additionalProperties: false,
-} as const
+export const bookResponseSchema = z.toJSONSchema(bookSchema, jsonSchemaOptions)
+
+export const listBooksQuerySchema = z.toJSONSchema(getBooksParamsSchema, jsonSchemaOptions)
