@@ -8,7 +8,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { ReactNode } from "react";
+import {PropsWithChildren, ReactNode} from "react";
 
 export interface Column<T> {
   key: string;
@@ -18,13 +18,13 @@ export interface Column<T> {
   width?: number;
 }
 
-interface TableProps<T> {
+interface TableProps<T> extends PropsWithChildren {
   columns: Column<T>[];
   rows: T[];
   emptyMessage?: string;
 }
 
-export default function Table<T>({ columns, rows, emptyMessage = "No results" }: TableProps<T>) {
+export default function Table<T>({ columns, rows, emptyMessage = "No results", children }: TableProps<T>) {
   const totalWidth = columns.reduce((sum, col) => sum + (col.width ?? 1), 0);
 
   return (
@@ -58,6 +58,7 @@ export default function Table<T>({ columns, rows, emptyMessage = "No results" }:
               </TableRow>
             ))
           )}
+          {children}
         </TableBody>
       </MuiTable>
     </TableContainer>
