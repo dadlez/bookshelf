@@ -12,10 +12,15 @@
     "dev:frontend": "npm run dev --workspace=@bookshelf/frontend",
     "db": "docker compose up --build -d",
     "db:down": "docker compose down",
-    "db:migrate": "node --env-file=backend/.env database/migrate.js"
+    "db:migrate": "node --env-file=backend/.env database/migrate.js",
+    "db:seed": "node --env-file=backend/.env database/seed100k.js"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.3.0",
     "@types/node": "^22.0.0",
     "typescript": "^5.8.0"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
   }
 }
