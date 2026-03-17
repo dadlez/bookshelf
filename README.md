@@ -1,7 +1,7 @@
 # Bookshelf app
 ## How to
-### Start the app
-from the root:
+### Starting the app locally
+From project root:
 
 Start the docker database container
 ```npm
@@ -18,12 +18,15 @@ Create test data in the database
 ```npm
 npm run db:seed100k
 ```
-OR to create ~1M records – the docker volume takes ~2GB disk space
+OR 
+* to create ~1M records – the docker volume takes ~2GB disk space
 ```npm
 npm run db:seed1M 
 ```
+Every run of either of these scripts creates randomized data in the database, so the scripts can be used multiple times to extend the amount of data to the required level.   
 
-Build backend and serve backend and frontend
+
+Build backend and and frontend
 ```npm
 npm run build:all
 ```
@@ -35,6 +38,8 @@ npm run start:backend
 ```npm
 npm run start:frontend
 ```
+
+Check frontend logs and open the provided link in the browser.  
 
 ## Main decision drivers
 * limited time for implementation
