@@ -15,7 +15,7 @@ export const filterSchema = z.object({
 })
 
 export const orderSchema = z.object({
-  sortBy: z.enum(['title', 'author', 'rating', 'page_count', 'created_at']).optional(),
+  sortBy: z.enum(['title', 'author', 'rating', 'page_count', 'isbn', 'created_at']).optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
 })
 

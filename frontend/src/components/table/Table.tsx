@@ -8,7 +8,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import {PropsWithChildren, ReactNode} from "react";
+import { PropsWithChildren, ReactNode } from "react";
+import ColumnSortLabel from "./ColumnSortLabel";
 
 export interface Column<T> {
   key: string;
@@ -16,15 +17,22 @@ export interface Column<T> {
   render: (row: T) => ReactNode;
   /** Proportional width, e.g. 2 means twice as wide as a column with width 1 */
   width?: number;
+  /** Backend sort key, if this column is sortable */
+  sortKey?: string;
+  /** Optional filter control rendered next to the header, outside the sort click target */
+  filter?: ReactNode;
 }
 
 interface TableProps<T> extends PropsWithChildren {
   columns: Column<T>[];
   rows: T[];
   emptyMessage?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  onSort?: (sortKey: string) => void;
 }
 
-export default function Table<T>({ columns, rows, emptyMessage = "No results", children }: TableProps<T>) {
+export default function Table<T>({ columns, rows, emptyMessage = "No results", children, sortBy, sortOrder, onSort }: TableProps<T>) {
   const totalWidth = columns.reduce((sum, col) => sum + (col.width ?? 1), 0);
 
   return (
@@ -37,7 +45,20 @@ export default function Table<T>({ columns, rows, emptyMessage = "No results", c
                 key={col.key}
                 sx={{ fontWeight: "bold", width: `${((col.width ?? 1) / totalWidth) * 100}%` }}
               >
-                {col.header}
+                {col.sortKey ? (
+                  <>
+                    <ColumnSortLabel
+                      active={sortBy === col.sortKey}
+                      direction={sortOrder}
+                      onClick={() => onSort?.(col.sortKey!)}
+                    >
+                      {col.header}
+                    </ColumnSortLabel>
+                    {col.filter}
+                  </>
+                ) : (
+                  <>{col.header}{col.filter}</>
+                )}
               </TableCell>
             ))}
           </TableRow>

@@ -11,7 +11,10 @@ interface FilterPopoverProps {
 export default function FilterPopover({ active, children }: FilterPopoverProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setAnchorEl(e.currentTarget);
+  };
   const handleClose = () => setAnchorEl(null);
 
   return (

@@ -70,7 +70,7 @@ export const listBooksQuerySchema = {
     maxPages: { type: 'integer', minimum: 1 },
     sortBy: {
       type: 'string',
-      enum: ['title', 'author', 'rating', 'page_count', 'created_at'],
+      enum: ['title', 'author', 'rating', 'page_count', 'isbn', 'created_at'],
       default: 'created_at',
     },
     sortOrder: { type: 'string', enum: ['asc', 'desc'], default: 'desc' },
